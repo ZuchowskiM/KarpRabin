@@ -2,6 +2,7 @@
 #include<fstream>
 #include<cmath>
 #include<string>
+#include<windows.h>
 
 //int hashfun(std::string s)
 //{
@@ -62,16 +63,15 @@ int main()
 		
 	}
 	plik.close();*/
-	
-	const int q = 127;
+	SetConsoleCP(1250);
+
+	const int q = 260144641;
 	const int d = 127;
 	
 	std::fstream plik;
-	plik.open("bibliaEn.txt");
+	plik.open("bibliaPL.txt");
 
 	std::string szukane;
-	//std::cin >> szukane;
-
 	std::getline(std::cin, szukane);
 
 	int n=0, m=0;
@@ -82,28 +82,33 @@ int main()
 	while (!plik.eof())
 	{
 		plik.get();
-		n++;//wykonac test czy dobrze liczy
+		n++;//liczy o jeden wiecej ale to dobrze
 	}
-		
+	//n--;
+	//std::cout << "liczba znakow w pliku: " << n << std::endl;
 
-	//n++;
+
 	plik.close();
-	plik.open("bibliaEn.txt");
+	plik.open("bibliaPL.txt");
 
-	int h = ((int)std::pow(d, (m - 1))) % q;
+	unsigned long long h = ((int)std::pow(d, (m - 1)));//% q;
 
-	int p = 0, t0 = 0;
+	unsigned long long p = 0, t0 = 0;
 	std::string tempString;
 
 	for (int i = 0; i < m; i++)
 	{
 		p = (((d * p) + szukane[i]) % q);
+		//p = ((d * p) + szukane[i]);
+
 		temp = plik.get();
 		tempString.push_back(temp);
+
 		t0 = (((d * t0) + temp) % q);
+		//t0 = ((d * t0) + temp);
 	}
 	
-	int missed = 0;
+	int missed = 0, found = 0;
 	for (int s = 0; s < n - m; s++)
 	{
 		if (p == t0)
@@ -111,6 +116,7 @@ int main()
 			if (szukane == tempString)
 			{
 				std::cout << s << " ";
+				found++;
 			}
 			else
 				missed++;
@@ -120,13 +126,15 @@ int main()
 		{
 			temp = plik.get();
 			tempString.push_back(temp);
-			t0 = (((d * (t0 - (tempString[0] * h))) + temp) % q); 
+			//t0 = ((d * (t0 - (tempString[0] * h))) + temp);
+			//t0 = ((d * t0  + temp) % q);
+			t0 = ((d * (t0 % h)) + temp) % q;
 			tempString = tempString.substr(1);
 		}
 	}
 	plik.close();
 	
-	std::cout << std::endl << missed;
+	std::cout << std::endl << missed << std::endl << found;
 	
 
 	return 0;
