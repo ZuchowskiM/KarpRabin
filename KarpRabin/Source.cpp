@@ -1,26 +1,43 @@
 #include<iostream>
 #include<fstream>
-#include<cmath>
 #include<string>
 #include<windows.h>
+
+void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& szukane);
 
 
 int main()
 {
-	
 	SetConsoleCP(1250);
 
-	const int q = 1801;
+	const int q = 7000003;
 	const int d = 256;
-	
-	std::fstream plik;
-	plik.open("bibliaPL.txt");
 
+	int liczbaPrzypadkow;
+	std::cin >> liczbaPrzypadkow;
+
+	std::string nazwaPliku;
 	std::string szukane;
-	std::getline(std::cin, szukane);
 
-	int n=0, m=0;
-	
+	for (int k = 0; k < liczbaPrzypadkow; k++)
+	{
+		std::cin >> nazwaPliku;//czy nazwa pliku bedzie zawierala spacje ? pyt do kowala!!!
+		std::cin.ignore();
+		std::getline(std::cin, szukane);
+		karpRabin(d, q, nazwaPliku, szukane);
+	}
+
+
+	return 0;
+}
+
+void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& szukane)
+{
+	std::fstream plik;
+	plik.open(nazwaPliku);
+
+	int n = 0, m = 0;
+
 	m = szukane.size();
 
 	char temp;
@@ -28,10 +45,10 @@ int main()
 	{
 		plik.get();
 		n++;//liczy o jeden wiecej ale to dobrze
-	}//zrobic test czy jesli ostani ciag jest w ostani w tekscie to poprawnie wyszuka
-	
+	}//zrobic test czy jesli ostani ciag jest w ostani w tekscie to poprawnie wyszuka!!!
+
 	plik.close();
-	plik.open("bibliaPL.txt");
+	plik.open(nazwaPliku);
 
 	int h = d;
 
@@ -46,14 +63,14 @@ int main()
 	for (int i = 0; i < m; i++)
 	{
 		p = (((d * p) % q) + szukane[i]) % q;
-		
+
 		temp = plik.get();
 		tempString.push_back(temp);
 
 		t0 = (((d * t0) % q) + temp) % q;
-		
+
 	}
-	
+
 	int missed = 0, found = 0;
 	for (int s = 0; s < n - m; s++)
 	{
@@ -74,14 +91,11 @@ int main()
 			tempString.push_back(temp);
 
 			t0 = ((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp) % q;
-			
+
 			tempString = tempString.substr(1);
 		}
 	}
 	plik.close();
-	
-	std::cout << std::endl << missed << std::endl << found;
-	
 
-	return 0;
+	std::cout << std::endl << missed << std::endl << found;
 }
