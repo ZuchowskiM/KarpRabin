@@ -1,3 +1,10 @@
+///////////////////////////
+//Nazwa: Karp-Rabin
+//Autor: Micha³ ¯uchowski
+//Data ost. modyfikacji:
+// 08.05.2020
+//////////////////////////
+
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -15,14 +22,16 @@ int main()
 
 	int liczbaPrzypadkow;
 	std::cin >> liczbaPrzypadkow;
+	std::cin.ignore();
 
 	std::string nazwaPliku;
 	std::string szukane;
 
 	for (int k = 0; k < liczbaPrzypadkow; k++)
 	{
-		std::cin >> nazwaPliku;//czy nazwa pliku bedzie zawierala spacje ? pyt do kowala!!!
-		std::cin.ignore();
+		//std::cin >> nazwaPliku;//czy nazwa pliku bedzie zawierala spacje ? pyt do kowala!!!
+		std::getline(std::cin, nazwaPliku);
+		//std::cin.ignore();
 		std::getline(std::cin, szukane);
 		karpRabin(d, q, nazwaPliku, szukane);
 	}
@@ -50,9 +59,9 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 	plik.close();
 	plik.open(nazwaPliku);
 
-	int h = d;
+	int h = 1;
 
-	for (int i = 0; i < m - 2; i++)
+	for (int i = 0; i < m - 1; i++)
 	{
 		h = (h * d) % q;
 	}
@@ -71,7 +80,7 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 
 	}
 
-	int missed = 0, found = 0;
+	//int missed = 0, found = 0;
 	for (int s = 0; s < n - m; s++)
 	{
 		if (p == t0)
@@ -79,10 +88,10 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 			if (szukane == tempString)
 			{
 				std::cout << s << " ";
-				found++;
+				//found++;
 			}
-			else
-				missed++;
+			//else
+				//missed++;
 
 		}
 		if (s < n - m)
@@ -92,10 +101,12 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 
 			t0 = ((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp) % q;
 
-			tempString = tempString.substr(1);
+			//tempString = tempString.substr(1);
+			tempString.erase(tempString.begin());
 		}
 	}
+	std::cout << std::endl;
 	plik.close();
 
-	std::cout << std::endl << missed << std::endl << found;
+	//std::cout << std::endl << missed << std::endl << found;
 }
