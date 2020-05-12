@@ -46,12 +46,10 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 
 	m = szukane.size();
 	unsigned char* szukaneChar = new unsigned char[m + 1];
-	//szukaneChar[m] = '\0';
 	memcpy(szukaneChar, szukane.c_str(), m + 1);
 
 	
 	unsigned char temp;
-	//char temp;
 	while (!plik.eof())
 	{
 		plik.get();
@@ -71,19 +69,14 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 	unsigned char* tempString = new unsigned char[m + 1];
 	tempString[m] = '\0';
 	int p = 0, t0 = 0;
-	//std::string tempString;
 	for (int i = 0; i < m; i++)
 	{
-		//p = ((((d * p) % q) + szukane[i])+q) % q;
 		p = (((d * p) % q) + szukaneChar[i]) % q;
 
 		temp = plik.get();
-		//tempString.push_back(temp);
 		tempString[i] = temp;
 
-		//t0 = ((((d * t0) % q) + temp)+q) % q;
 		t0 = (((d * t0) % q) + temp) % q;
-
 	}
 
 	//int missed = 0, found = 0;
@@ -91,7 +84,6 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 	{
 		if (p == t0)
 		{
-			//if (szukane == tempString)
 			if(memcmp(szukaneChar,tempString,m+1)==0)
 			{
 				std::cout << s << " ";
@@ -104,12 +96,7 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 		if (s < n - m)
 		{
 			temp = plik.get();
-			//tempString.push_back(temp);
-
-			//t0 = (((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp)+q) % q;
-
-			//tempString.erase(tempString.begin());
-
+	
 			t0 = (d * (((t0 - ((tempString[0] * h) % q)) + q) % q) + temp) % q;
 
 			for (int i = 0; i < m-1; i++)
