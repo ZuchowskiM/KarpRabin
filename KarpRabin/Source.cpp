@@ -2,7 +2,7 @@
 //Nazwa: Karp-Rabin
 //Autor: Micha³ ¯uchowski
 //Data ost. modyfikacji:
-// 08.05.2020
+// 12.05.2020
 //////////////////////////
 
 #include<iostream>
@@ -11,7 +11,6 @@
 #include<windows.h>
 
 void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& szukane);
-
 
 int main()
 {
@@ -29,9 +28,7 @@ int main()
 
 	for (int k = 0; k < liczbaPrzypadkow; k++)
 	{
-		//std::cin >> nazwaPliku;//czy nazwa pliku bedzie zawierala spacje ? pyt do kowala!!!
 		std::getline(std::cin, nazwaPliku);
-		//std::cin.ignore();
 		std::getline(std::cin, szukane);
 		karpRabin(d, q, nazwaPliku, szukane);
 	}
@@ -54,7 +51,8 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 	{
 		plik.get();
 		n++;//liczy o jeden wiecej ale to dobrze
-	}//zrobic test czy jesli ostani ciag jest w ostani w tekscie to poprawnie wyszuka!!!
+	}
+
 
 	plik.close();
 	plik.open(nazwaPliku);
@@ -101,12 +99,11 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 
 			t0 = ((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp) % q;
 
-			//tempString = tempString.substr(1);
 			tempString.erase(tempString.begin());
 		}
 	}
 	std::cout << std::endl;
 	plik.close();
 
-	//std::cout << std::endl << missed << std::endl << found;
+	//std::cout << std::endl <<"missed: "<< missed << std::endl <<"found: "<< found << std::endl;
 }
