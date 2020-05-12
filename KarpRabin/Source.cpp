@@ -50,10 +50,9 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 	while (!plik.eof())
 	{
 		plik.get();
-		n++;//liczy o jeden wiecej ale to dobrze
+		n++;
 	}
-
-
+	
 	plik.close();
 	plik.open(nazwaPliku);
 
@@ -69,12 +68,12 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 
 	for (int i = 0; i < m; i++)
 	{
-		p = (((d * p) % q) + szukane[i]) % q;
+		p = ((((d * p) % q) + szukane[i])+q) % q;
 
 		temp = plik.get();
 		tempString.push_back(temp);
 
-		t0 = (((d * t0) % q) + temp) % q;
+		t0 = ((((d * t0) % q) + temp)+q) % q;
 
 	}
 
@@ -97,7 +96,7 @@ void karpRabin(int d, int q, const std::string& nazwaPliku, const std::string& s
 			temp = plik.get();
 			tempString.push_back(temp);
 
-			t0 = ((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp) % q;
+			t0 = (((d * (((t0 - ((tempString[0] * h) % q)) + q) % q) % q) + temp)+q) % q;
 
 			tempString.erase(tempString.begin());
 		}
